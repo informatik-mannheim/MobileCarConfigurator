@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="5dp"
+    android:background="#FFFFFF"
+    android:elevation="2dp"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="INTERIOR - NAVIGATIONSSYSTEM"
+        android:fontFamily="sans-serif-light"
+        android:textSize="25dp"
+        android:layout_marginBottom="25dp"/>
+
+    <LinearLayout
+        android:id="@+id/navi_fragment_color_container"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/navi_fragment_navi_small"
+            android:clickable="true"
+            android:elevation="2dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:background="@color/colorAccent">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/navi_small"
+                android:scaleType="fitXY"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/navi_fragment_navi_medium"
+            android:elevation="2dp"
+            android:layout_marginLeft="25dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:background="@color/colorAccent">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/navi_medium"
+                android:scaleType="fitXY"/></LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/navi_fragment_navi_large"
+            android:clickable="true"
+            android:elevation="2dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_marginLeft="25dp"
+            android:background="@color/colorAccent">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/navi_large"
+                android:scaleType="fitXY"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_gravity="right"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/navi_fragment_previous_btn"
+            android:background="@color/colorAccent"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zurück"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="right"></Button>
+
+        <Button
+            android:id="@+id/navi_fragment_next_btn"
+            android:background="@color/colorAccent"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weiter"
+            android:layout_gravity="right"></Button>
+
+    </LinearLayout>
+
+</LinearLayout>

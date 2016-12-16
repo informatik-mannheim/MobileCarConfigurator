@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="5dp"
+    android:background="#FFFFFF"
+    android:elevation="2dp"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="INTERIOR - POLSTER"
+        android:fontFamily="sans-serif-light"
+        android:textSize="25dp"
+        android:layout_marginBottom="25dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/cushion_fragment_interior_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitStart"
+            android:src="@drawable/brown_cushion" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/cushion_fragment_color_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/cushion_fragment_white"
+            android:clickable="true"
+            android:elevation="2dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:background="@color/colorAccent">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/white_leather"
+                android:scaleType="fitXY"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/cushion_fragment_brown"
+            android:elevation="2dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:background="@color/colorAccent">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/brown_leather"
+                android:scaleType="fitXY"/></LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_gravity="right"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/cushion_fragment_previous_btn"
+            android:background="@color/colorAccent"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zurück"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="right"></Button>
+
+        <Button
+            android:id="@+id/cushion_fragment_next_btn"
+            android:background="@color/colorAccent"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weiter"
+            android:layout_gravity="right"></Button>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="5dp"
+    android:background="#FFFFFF"
+    android:elevation="2dp"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WEITERES - TEILEN"
+        android:fontFamily="sans-serif-light"
+        android:textSize="25dp"
+        android:layout_marginBottom="25dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:id="@+id/share_fragment_profile_image_container"
+            android:layout_centerHorizontal="true"
+            android:layout_width="100dp"
+            android:layout_height="100dp">
+
+            <ImageView
+                android:id="@+id/share_fragment_profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/profile_image"
+                android:elevation="2dp">
+            </ImageView>
+
+            <ImageView
+                android:id="@+id/share_fragment_profile_image_completed"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/profile_sample_completed"
+                android:elevation="2dp">
+            </ImageView>
+
+            <ImageView
+                android:id="@+id/share_fragment_profile_active_indicator"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@drawable/profile_image_circle"
+                android:scaleType="fitXY"
+                android:elevation="2dp">
+            </ImageView>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:background="@drawable/share_circle"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
+
+        </LinearLayout>
+
+        <ImageView
+            android:focusableInTouchMode="true"
+            android:id="@+id/share_fragment_car_image"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:scaleType="centerInside"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
+
+            android:src="@drawable/blue_car" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/share_fragment_share_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_gravity="right"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/share_fragment_previous_btn"
+            android:background="@color/colorAccent"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zurück"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="right"></Button>
+
+        <Button
+            android:id="@+id/share_fragment_next_btn"
+            android:background="@color/colorAccent"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weiter"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="right"></Button>
+
+    </LinearLayout>
+
+</LinearLayout>
