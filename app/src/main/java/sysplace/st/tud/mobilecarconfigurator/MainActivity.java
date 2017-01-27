@@ -28,8 +28,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.estimote.sdk.SystemRequirementsChecker;
 import com.estimote.sdk.repackaged.gson_v2_3_1.com.google.gson.Gson;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
     private Map<INavigationItem, TextView> views;
 
     private StringStore mStringStore;
-    private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 117;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 118;
     private KVEServer mKVEServer;
     private boolean mInsideCave;
     private ProximityDetector mProximityDetector;
@@ -212,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
+
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
