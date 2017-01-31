@@ -33,7 +33,7 @@ public class UDPClient {
                     socket = new DatagramSocket();
                     DatagramPacket p = new DatagramPacket(msg_bytes, msg_length, mAddress, mPort);
 
-                    Log.d(TAG, "sending packet");
+                    Log.d(TAG, String.format("sending packet (%s)", message));
                     socket.send(p);
 
                 } catch (IOException ex) {

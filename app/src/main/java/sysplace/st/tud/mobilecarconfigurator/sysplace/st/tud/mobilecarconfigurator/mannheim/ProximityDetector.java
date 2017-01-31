@@ -35,7 +35,8 @@ public class ProximityDetector extends Observable<ProximityDetector.ProximityLis
 
         mBeaconManager = new BeaconManager(context);
         mBeaconManager.setForegroundScanPeriod(SCAN_PERIOD_MILLIS, 0);
-        mBeaconManager.setEddystoneListener(new BeaconManager.EddystoneListener() {
+        mBeaconManager.setEddystoneListener(
+                new BeaconManager.EddystoneListener() {
             @Override
             public void onEddystonesFound(List<Eddystone> list) {
                 for (Eddystone e : list) {
@@ -48,6 +49,7 @@ public class ProximityDetector extends Observable<ProximityDetector.ProximityLis
                 }
             }
         });
+
     }
 
     /**

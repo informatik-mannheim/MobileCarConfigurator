@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
     private String defaultIp = "37.61.204.167";
     private int defaultPort = 8080;
     private SwipeDetector swipeDetector;
+    private final boolean DEBUG = false;
 
 
     @Override
@@ -83,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
         setContentView(R.layout.activity_main);
         contentContainer = (LinearLayout) findViewById(R.id.main_content_container);
 
+        checkPermissions();
+        checkGPSStatus();
 
         PersonalProfile.getInstance().loadFromPreferences(this);
 
@@ -93,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
             @Override
             public void handleEvent(Event e) {
                 if (e instanceof ColorChangedEvent) {
-                    ColorChangedEvent che = (ColorChangedEvent) e;
+                    final ColorChangedEvent che = (ColorChangedEvent) e;
 
                     final String config = "{\"product\":{\"attributeGroups\":[{\"name\":\"Exterior\",\"attributes\":[{\"name\":\"Farbe\",\"selectedValues\":[\"" + (che.getColor() == CarColor.Green ? "Grün" : "Blau") + "\"]},{\"name\":\"Scheibentönung\",\"selectedValues\":[]},{\"name\":\"Felgen\",\"selectedValues\":[]}]},{\"name\":\"Interior\",\"attributes\":[{\"name\":\"Polster\",\"selectedValues\":[]},{\"name\":\"Navigation\",\"selectedValues\":[]}]}]},\"timestamp\":146278164764.9251}";
 
@@ -113,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
                                 public void run() {
                                     Toast.makeText(MainActivity.this,
                                             String.format("Profil gepeichert \n\n(%s).\n\nCave betreten.",
-                                                    config),
+                                                    che.getColor()),
                                             Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -129,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
 
         float threshold = Float.parseFloat(PreferenceManager
                 .getDefaultSharedPreferences(this)
-                .getString("proximity_threshold", "3.0"));
+                .getString("proximity_threshold", "1.5"));
 
         Log.d(TAG, String.format(Locale.GERMANY, "Threshold is %.2f", threshold));
 
@@ -153,12 +156,12 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
             }
         });
 
-        checkPermissions();
-        checkGPSStatus();
 
         generateLayout();
 
-
+        /**
+         * needed for the KVE protocol
+         */
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -173,6 +176,8 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
             }
         }).start();
 
+
+        mInsideCave = false;
     }
 
     private void checkGPSStatus() {
@@ -185,10 +190,12 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
         try {
             gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         } catch (Exception ex) {
+            Log.d("e", "Exception GPS");
         }
         try {
             network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         } catch (Exception ex) {
+            Log.d("e", "Exception Network");
         }
         if (!gps_enabled && !network_enabled) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
@@ -287,10 +294,9 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
     public void onEntry() {
         if (!mInsideCave) {
             mInsideCave = true;
-
-            ColorSyncher.getInstance().start();
-
             notifyCaveServerEntry();
+            Toast.makeText(this, "Cave betreten", Toast.LENGTH_SHORT).show();
+            ColorSyncher.getInstance().start();
             sendProfileToStringStore();
         }
     }
@@ -299,11 +305,12 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
     public void onExit() {
         if (mInsideCave) {
             mInsideCave = false;
+            notifyCaveServerExit();
+            Toast.makeText(this, "Cave verlassen", Toast.LENGTH_SHORT).show();
 
             ColorSyncher.getInstance().stop();
 
             removeProfileFromStringStore();
-            notifyCaveServerExit();
         }
     }
 
@@ -353,7 +360,7 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
         final PersonalProfile profile = PersonalProfile.getInstance();
 
         Toast.makeText(this,
-                String.format("Profil gepeichert \n\n(%s).\n\nCave betreten.",
+                String.format("Profil gepeichert \n\n(%s).\n\n",
                         profile.toJSON(getColor())),
                 Toast.LENGTH_SHORT).show();
 
@@ -366,7 +373,7 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
     }
 
     private void removeProfileFromStringStore() {
-        Toast.makeText(this, "Profil entfernt. \n\nCave verlassen.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Profil entfernt. \n\n", Toast.LENGTH_SHORT).show();
 
         new Thread(new Runnable() {
             @Override
