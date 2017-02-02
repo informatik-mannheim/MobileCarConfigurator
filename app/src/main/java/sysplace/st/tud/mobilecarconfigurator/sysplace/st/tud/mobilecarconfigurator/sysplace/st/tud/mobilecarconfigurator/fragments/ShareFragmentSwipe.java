@@ -57,14 +57,14 @@ public class ShareFragmentSwipe extends Fragment implements IEventReceiver, Gest
 
         image = (ImageView) v.findViewById(R.id.share_fragment_swipe_car_image);
 
-        /*mDetector = new GestureDetectorCompat(getActivity(), this);
+        mDetector = new GestureDetectorCompat(getActivity(), this);
         image.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 mDetector.onTouchEvent(event);
                 return true;
             }
-        });*/
+        });
 
         ((Button) v.findViewById(R.id.share_fragment_swipe_previous_btn)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,12 +80,12 @@ public class ShareFragmentSwipe extends Fragment implements IEventReceiver, Gest
             }
         });
 
-        //switchToReceiveMode();
+        switchToReceiveMode();
 
         return v;
     }
 
-    /*private void switchToReceiveMode() {
+    private void switchToReceiveMode() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -115,7 +115,7 @@ public class ShareFragmentSwipe extends Fragment implements IEventReceiver, Gest
                 }
             }
         }).start();
-    }*/
+    }
 
 
     private void notifyReceived() {
@@ -126,11 +126,11 @@ public class ShareFragmentSwipe extends Fragment implements IEventReceiver, Gest
         updateImage(getView());
     }
 
-    /*private void select(CarColor color) {
+    private void select(CarColor color) {
         CarManager.getInstance().getCar().setColor(color);
         updateImage(getView());
         new ServerCommunicator().store(color);
-    }*/
+    }
 
     @Override
     public void handleEvent(Event e) {
