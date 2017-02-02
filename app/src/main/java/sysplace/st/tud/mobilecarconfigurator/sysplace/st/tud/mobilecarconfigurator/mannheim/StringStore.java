@@ -16,7 +16,7 @@ import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurat
 
 public class StringStore {
 
-    private static final String TAG = "TAG";
+    private static final String TAG = "[StringStore]";
     private static StringStore instance;
 
     public static StringStore getInstance(){
@@ -78,7 +78,7 @@ public class StringStore {
             urlConnection.setInstanceFollowRedirects(false);
             urlConnection.setUseCaches(false);
 
-            Log.d(TAG, "Posting " + data);
+            Log.d(TAG, String.format("writing %s", data));
 
             urlConnection.getOutputStream().write(postData);
             urlConnection.getInputStream();

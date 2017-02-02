@@ -60,20 +60,17 @@ import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurat
 
 public class MainActivity extends AppCompatActivity implements NavigationProvider.IActiveItemChanged, ProximityDetector.ProximityListener, SwipeDetector.SwipeListener {
 
+    private static final double THRESHOLD = 1.5;
+    private final boolean DEBUG = false;
+
     private LinearLayout contentContainer;
     private Map<INavigationItem, TextView> views;
-
     private StringStore mStringStore;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 118;
     private KVEServer mKVEServer;
     private boolean mInsideCave;
     private ProximityDetector mProximityDetector;
-    private static final String TAG = "[CaveActivity]";
-    private String defaultIp = "37.61.204.167";
-    private int defaultPort = 8080;
     private SwipeDetector swipeDetector;
-    private final boolean DEBUG = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,21 +102,11 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
                         public void run() {
                             mStringStore.write("cas-config", config);
                             mStringStore.write("config-cas", config);
+                            mStringStore.write("personal_profile", PersonalProfile.getInstance().toJSON(getColor()));
 
                             if (mInsideCave){
-                                mStringStore.write("personal_profile", PersonalProfile.getInstance().toJSON(getColor()));
                                 mKVEServer.send(true, getColor());
                             }
-
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(MainActivity.this,
-                                            String.format("Profil gepeichert \n\n(%s).\n\nCave betreten.",
-                                                    che.getColor()),
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            });
                         }
                     }).start();
                 }
@@ -130,13 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
         swipeDetector.initialize(mStringStore);
         swipeDetector.registerObserver(this);
 
-        float threshold = Float.parseFloat(PreferenceManager
-                .getDefaultSharedPreferences(this)
-                .getString("proximity_threshold", "1.5"));
-
-        Log.d(TAG, String.format(Locale.GERMANY, "Threshold is %.2f", threshold));
-
-        mProximityDetector = new ProximityDetector(this, threshold);
+        mProximityDetector = new ProximityDetector(this, THRESHOLD);
         mProximityDetector.registerObserver(this);
 
         EventManager.getInstance().registerReceiver(MessageRequiredEvent.class, new IEventReceiver() {
@@ -295,7 +276,9 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
         if (!mInsideCave) {
             mInsideCave = true;
             notifyCaveServerEntry();
+
             Toast.makeText(this, "Cave betreten", Toast.LENGTH_SHORT).show();
+
             ColorSyncher.getInstance().start();
             sendProfileToStringStore();
         }
@@ -306,10 +289,10 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
         if (mInsideCave) {
             mInsideCave = false;
             notifyCaveServerExit();
+
             Toast.makeText(this, "Cave verlassen", Toast.LENGTH_SHORT).show();
 
             ColorSyncher.getInstance().stop();
-
             removeProfileFromStringStore();
         }
     }
@@ -359,10 +342,14 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
     private void sendProfileToStringStore() {
         final PersonalProfile profile = PersonalProfile.getInstance();
 
-        Toast.makeText(this,
-                String.format("Profil gepeichert \n\n(%s).\n\n",
-                        profile.toJSON(getColor())),
-                Toast.LENGTH_SHORT).show();
+        if(DEBUG)
+        {
+            Toast.makeText(this,
+                    String.format("Profil gepeichert \n\n(%s).\n\n",
+                            profile.toJSON(getColor())),
+                    Toast.LENGTH_SHORT).show();
+        }
+
 
         new Thread(new Runnable() {
             @Override
@@ -373,7 +360,12 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
     }
 
     private void removeProfileFromStringStore() {
-        Toast.makeText(this, "Profil entfernt. \n\n", Toast.LENGTH_SHORT).show();
+
+        if(DEBUG)
+        {
+            Toast.makeText(this, "Profil entfernt. \n\n", Toast.LENGTH_SHORT).show();
+        }
+
 
         new Thread(new Runnable() {
             @Override
@@ -436,7 +428,6 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
         }
 
         EventManager.getInstance().sendEvent(new ExchangeReceivedEvent(this));
-
 
     }
 }
