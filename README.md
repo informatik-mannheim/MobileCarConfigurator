@@ -1,6 +1,6 @@
 # MMobile for Android 
 
-Mobile Car Configurator for Android, to be used in project SysPlace demo case. Implements the look & feel of a corresponding iOS app with which it can interact. If not otherwise mentioned, all communication is performed via RESTful JSON operations using a central server.
+Mobile Car Configurator for Android, to be used in project SysPlace demo case. Implements the look & feel of a corresponding iOS app with which it can interact. Unless otherwise stated, all communication is performed via RESTful JSON operations using a central server (which can be configured at runtime).
 
 Features
 -----
@@ -11,7 +11,7 @@ Features
   - updates key `config-cas` with the current color
 - Performs contious background scan for eddystone beacons and notices entry and exit of a configured beacon range
   - On entry: 
-    1. CAVE is notified of entry, a car is shown with the corresponding color (UDP packet containing json `{'color':'<color>', 'inside':true}` is sent to CAVE server)
+	1. CAVE is notified of entry, a car is shown with the corresponding color (UDP packet containing json `{'color':'<color>', 'inside':true}` is sent to CAVE server)
 	2. Key `personal_profile` is updated with the current Personal Profile (can be configured inside the app and consists of *name*, *age* and *gender*)
   - On exit: CAVE is notified of exit, the car will be removed (UDP packet containing json `{'color':'<color>', 'inside':true}` is sent to CAVE server)
 
@@ -24,4 +24,4 @@ Compile time:
 
 Run time:
 
-At run time, the last screen ("Einstellungen") allows configuration of the `IP` and `Port` of the RESTful JSON server
+- At run time, the last screen ("Einstellungen") allows configuration of the `IP` and `Port` of the RESTful JSON server
