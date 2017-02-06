@@ -19,10 +19,8 @@ public class ProximityDetector extends Observable<ProximityDetector.ProximityLis
     private static final String TAG = "EddystoneScan";
     private static final String EDDYSTONE_NS = "edd1ebeac04e5defa017";
     private static final String EDDYSTONE_INS = "c80743ea119d";
-    /*private static final String EDDYSTONE_NS = "edd1ebeac04e5defa017";
-    private static final String EDDYSTONE_INS = "f5f146d07b8f";*/
     private static final int NUM_SAMPLES = 5;
-    private static final int SCAN_PERIOD_MILLIS = 500;
+    private static final int SCAN_PERIOD_MILLIS = 220;
 
     private String mScanId;
     private BeaconManager mBeaconManager;

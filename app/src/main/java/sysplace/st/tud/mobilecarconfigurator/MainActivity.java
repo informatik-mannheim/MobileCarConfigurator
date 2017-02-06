@@ -102,9 +102,9 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
                         public void run() {
                             mStringStore.write("cas-config", config);
                             mStringStore.write("config-cas", config);
-                            mStringStore.write("personal_profile", PersonalProfile.getInstance().toJSON(getColor()));
 
-                            if (mInsideCave){
+                            if (mInsideCave) {
+                                mStringStore.write("personal_profile", PersonalProfile.getInstance().toJSON(getColor()));
                                 mKVEServer.send(true, getColor());
                             }
                         }
@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
         /**
          * needed for the KVE protocol
          */
+        /*
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -156,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
                 }
             }
         }).start();
-
+        */
 
         mInsideCave = false;
     }
