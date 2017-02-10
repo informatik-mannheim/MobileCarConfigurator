@@ -1,5 +1,6 @@
 package sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurator.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import sysplace.st.tud.mobilecarconfigurator.MainActivity;
 import sysplace.st.tud.mobilecarconfigurator.R;
 import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurator.data.ServerData;
 import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurator.eventing.EventManager;
@@ -30,6 +32,8 @@ public class SettingsFragment extends Fragment {
     private TextView ageTxt;
     private TextView ipTxt;
     private TextView portTxt;
+    private TextView thresholdTxt;
+    private MainActivity mActivity;
 
     @Nullable
     @Override
@@ -41,8 +45,10 @@ public class SettingsFragment extends Fragment {
         ageTxt = (TextView) v.findViewById(R.id.settings_fragment_age_txt);
         ipTxt = (TextView) v.findViewById(R.id.settings_fragment_ip_txt);
         portTxt = (TextView) v.findViewById(R.id.settings_fragment_port_txt);
+        thresholdTxt = (TextView) v.findViewById(R.id.settings_fragment_threshold_txt);
         maleRadio = (RadioButton) v.findViewById(R.id.settings_fragment_male_check);
         femaleRadio = (RadioButton) v.findViewById(R.id.settings_fragment_female_check);
+        mActivity = (MainActivity) getActivity();
 
         PersonalProfile p = PersonalProfile.getInstance();
 
@@ -53,6 +59,7 @@ public class SettingsFragment extends Fragment {
         femaleRadio.setChecked(!p.getGender().toUpperCase().equals("M"));
         ipTxt.setText(ServerData.getInstance().getIp());
         portTxt.setText(Integer.toString(ServerData.getInstance().getPort()));
+        thresholdTxt.setText(mActivity.getThreshold() + "");
 
         ((Button) v.findViewById(R.id.settings_fragment_previous_btn)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,8 +82,11 @@ public class SettingsFragment extends Fragment {
                 String ip = ipTxt.getText().toString();
                 int port = Integer.parseInt(portTxt.getText().toString());
 
+                double threshold = Double.parseDouble(thresholdTxt.getText().toString());
+                mActivity.setThreshold(threshold);
+
                 ServerData.getInstance().initialize(ip, port);
-                ServerData.getInstance().save(getActivity());
+                ServerData.getInstance().save(mActivity);
 
                 Toast.makeText(getActivity(),"Daten gespeichert", Toast.LENGTH_SHORT).show();
             }

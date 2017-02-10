@@ -8,17 +8,15 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.LocationManager;
-import android.preference.PreferenceManager;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -28,13 +26,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.estimote.sdk.SystemRequirementsChecker;
 import com.estimote.sdk.repackaged.gson_v2_3_1.com.google.gson.Gson;
 
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurator.communication.ColorSyncher;
@@ -49,10 +44,10 @@ import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurat
 import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurator.eventing.IEventReceiver;
 import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurator.eventing.MessageRequiredEvent;
 import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurator.eventing.OrientationChanged;
+import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurator.mannheim.KVEServer;
 import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurator.mannheim.PersonalProfile;
 import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurator.mannheim.ProximityDetector;
 import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurator.mannheim.StringStore;
-import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurator.mannheim.KVEServer;
 import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurator.mannheim.SwipeDetector;
 import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurator.navigation.INavigationItem;
 import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurator.navigation.NavigationGroup;
@@ -60,7 +55,7 @@ import sysplace.st.tud.mobilecarconfigurator.sysplace.st.tud.mobilecarconfigurat
 
 public class MainActivity extends AppCompatActivity implements NavigationProvider.IActiveItemChanged, ProximityDetector.ProximityListener, SwipeDetector.SwipeListener {
 
-    private static final double THRESHOLD = 1.5;
+    private static double mThreshold = 2.5;
     private final boolean DEBUG = false;
 
     private LinearLayout contentContainer;
@@ -117,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
         swipeDetector.initialize(mStringStore);
         swipeDetector.registerObserver(this);
 
-        mProximityDetector = new ProximityDetector(this, THRESHOLD);
+        mProximityDetector = new ProximityDetector(this, mThreshold);
         mProximityDetector.registerObserver(this);
 
         EventManager.getInstance().registerReceiver(MessageRequiredEvent.class, new IEventReceiver() {
@@ -343,8 +338,7 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
     private void sendProfileToStringStore() {
         final PersonalProfile profile = PersonalProfile.getInstance();
 
-        if(DEBUG)
-        {
+        if (DEBUG) {
             Toast.makeText(this,
                     String.format("Profil gepeichert \n\n(%s).\n\n",
                             profile.toJSON(getColor())),
@@ -362,8 +356,7 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
 
     private void removeProfileFromStringStore() {
 
-        if(DEBUG)
-        {
+        if (DEBUG) {
             Toast.makeText(this, "Profil entfernt. \n\n", Toast.LENGTH_SHORT).show();
         }
 
@@ -430,5 +423,18 @@ public class MainActivity extends AppCompatActivity implements NavigationProvide
 
         EventManager.getInstance().sendEvent(new ExchangeReceivedEvent(this));
 
+    }
+
+    public void setThreshold(double threshold) {
+        mThreshold = threshold;
+        mProximityDetector = new ProximityDetector(this, mThreshold);
+        mProximityDetector.registerObserver(this);
+        mProximityDetector.startScanning();
+
+        Log.d("MainActivity", "New ProximityDetector with threshold " + threshold);
+    }
+
+    public double getThreshold() {
+        return mThreshold;
     }
 }
